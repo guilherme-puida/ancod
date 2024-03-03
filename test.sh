@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+verbose="$1"
+
 passes=0
 fails=0
 
@@ -30,6 +32,10 @@ check() {
   else
     ((passes++))
     echo "PASS $description"
+    if [[ "$verbose" == "1" ]]; then
+      escape "  : $actual != $expected"
+      echo   "  : $actual$reset != $expected$reset"
+    fi
   fi
 }
 
