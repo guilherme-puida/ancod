@@ -4,9 +4,12 @@
 int
 main(int argc, char **argv)
 {
-    (void) argc;
-    (void) argv;
+    if (argc != 2) {
+        exit(EXIT_FAILURE);
+    }
 
-    puts("hello, world!");
+    char *input = argv[1];
+    puts(input);
+
     exit(EXIT_SUCCESS);
 }
