@@ -54,40 +54,42 @@ check() {
   fi
 }
 
-check 'invalid tag' '[abc]hello'    '[abc]hello'
-check 'mismatched'  '[[]hello'      '[[]hello'
-check 'closing'     ']hello'        ']hello'
-check 'nested'      '[[]]hello'     '[[]]hello'
-check 'escaped'     '\[b]hello \n'  '[b]hello \n'
+r="$(c 0)"
 
-check 'bold'   '[b]bold[/b] no'   "$(c 1)bold$(c 22) no"
-check 'dim'    '[d]dim[/d] no'    "$(c 2)dim$(c 22) no"
-check 'italic' '[i]italic[/i] no' "$(c 3)italic$(c 23) no"
-check 'under'  '[u]under[/u] no'  "$(c 4)under$(c 24) no"
-check 'strike' '[s]strike[/s] no' "$(c 9)strike$(c 29) no"
+check 'invalid tag' '[abc]hello'    "[abc]hello$r"
+check 'mismatched'  '[[]hello'      "[[]hello$r"
+check 'closing'     ']hello'        "]hello$r"
+check 'nested'      '[[]]hello'     "[[]]hello$r"
+check 'escaped'     '\[b]hello \n'  "[b]hello \\n$r"
 
-check 'fg black'   '[^black]black'     "$(c 30)black"
-check 'fg red'     '[^red]red'         "$(c 31)red"
-check 'fg green'   '[^green]green'     "$(c 32)green"
-check 'fg yellow'  '[^yellow]yellow'   "$(c 33)yellow"
-check 'fg blue'    '[^blue]blue'       "$(c 34)blue"
-check 'fg magenta' '[^magenta]magenta' "$(c 35)magenta"
-check 'fg cyan'    '[^cyan]cyan'       "$(c 36)cyan"
-check 'fg white'   '[^white]white'     "$(c 37)white"
+check 'bold'   '[b]bold[/b] no'   "$(c 1)bold$(c 22) no$r"
+check 'dim'    '[d]dim[/d] no'    "$(c 2)dim$(c 22) no$r"
+check 'italic' '[i]italic[/i] no' "$(c 3)italic$(c 23) no$r"
+check 'under'  '[u]under[/u] no'  "$(c 4)under$(c 24) no$r"
+check 'strike' '[s]strike[/s] no' "$(c 9)strike$(c 29) no$r"
 
-check 'bg black'   '[*black]black'     "$(c 40)black"
-check 'bg red'     '[*red]red'         "$(c 41)red"
-check 'bg green'   '[*green]green'     "$(c 42)green"
-check 'bg yellow'  '[*yellow]yellow'   "$(c 43)yellow"
-check 'bg blue'    '[*blue]blue'       "$(c 44)blue"
-check 'bg magenta' '[*magenta]magenta' "$(c 45)magenta"
-check 'bg cyan'    '[*cyan]cyan'       "$(c 46)cyan"
-check 'bg white'   '[*white]white'     "$(c 47)white"
+check 'fg black'   '[^black]black'     "$(c 30)black$r"
+check 'fg red'     '[^red]red'         "$(c 31)red$r"
+check 'fg green'   '[^green]green'     "$(c 32)green$r"
+check 'fg yellow'  '[^yellow]yellow'   "$(c 33)yellow$r"
+check 'fg blue'    '[^blue]blue'       "$(c 34)blue$r"
+check 'fg magenta' '[^magenta]magenta' "$(c 35)magenta$r"
+check 'fg cyan'    '[^cyan]cyan'       "$(c 36)cyan$r"
+check 'fg white'   '[^white]white'     "$(c 37)white$r"
 
-check 'fg default' '[^red]red[/^] no' "$(c 31)red$(c 39) no"
-check 'bg default' '[*red]red[/*] no' "$(c 41)red$(c 49) no"
+check 'bg black'   '[*black]black'     "$(c 40)black$r"
+check 'bg red'     '[*red]red'         "$(c 41)red$r"
+check 'bg green'   '[*green]green'     "$(c 42)green$r"
+check 'bg yellow'  '[*yellow]yellow'   "$(c 43)yellow$r"
+check 'bg blue'    '[*blue]blue'       "$(c 44)blue$r"
+check 'bg magenta' '[*magenta]magenta' "$(c 45)magenta$r"
+check 'bg cyan'    '[*cyan]cyan'       "$(c 46)cyan$r"
+check 'bg white'   '[*white]white'     "$(c 47)white$r"
 
-check 'reset' '[b][^red]bold red[/] no' "$(c 1)$(c 31)bold red$(c 0) no"
+check 'fg default' '[^red]red[/^] no' "$(c 31)red$(c 39) no$r"
+check 'bg default' '[*red]red[/*] no' "$(c 41)red$(c 49) no$r"
+
+check 'reset' '[b][^red]bold red[/] no' "$(c 1)$(c 31)bold red$(c 0) no$r"
 
 echo "$passes passes, $fails fails"
 exit "$fails"
