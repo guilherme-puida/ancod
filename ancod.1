@@ -1,0 +1,97 @@
+.Dd $Mdocdate: March 04 2024 $
+.Dt ANCOD 1
+.Os
+.Sh NAME
+.Nm ancod
+.Md generate formatted strings using ansi codes
+.Sh SYNOPSIS
+.Nm ancod
+.Op Fl fhnrv
+.Op Ar STRING...
+.Sh DESCRIPTION
+.Nm
+generates formatted string using ansi codes.
+.Pp
+The options are as follows:
+.Bl -tag -width Ds
+.It Fl f
+Force styled output, overriding the NO_COLOR environment variable.
+.It Fl h
+Print help message and exit.
+.It Fl n
+Do not output the trailing newline.
+.It Fl r
+Do not reset styles after every input.
+.It Fl v
+Print version information and exit.
+.El
+.Pp
+Supported tags are as follows:
+.Pp
+.Bl -tag -width "[*COLOR]" -compact
+.It Bq /
+reset all.
+.It Bq ^COLOR
+set foreground color to
+.Sy COLOR.
+.It Bq /^
+reset foreground color to default.
+.It Bq *COLOR
+set background color to
+.Sy COLOR.
+.It Bq /*
+reset background color to default.
+.It Bq b
+bold.
+.It Bq /b
+no bold.
+.It Bq d
+dim.
+.It Bq /d
+no dim.
+.It Bq i
+italic.
+.It Bq /i
+no italic.
+.It Bq u
+underline.
+.It Bq /u
+no underline.
+.It Bq s
+strikethrough.
+.It Bq /s
+no strikethrough.
+.El
+.Pp
+Where
+.Sy COLOR
+can be one of:
+.Pp
+.Bl -dash -compact
+.It
+black
+.It
+red
+.It
+green
+.It
+yellow
+.It
+blue
+.It
+magenta
+.It
+cyan
+.It
+white
+.El
+.Pp
+Tags can be escaped with a single backslash before the opening bracket. Any
+other escape sequence will be ignored.
+.Pp
+Invalid tags will be output as-is.
+.Sh ENVIRONMENT
+.Bl -tag -width Ds
+.It Ev NO_COLOR
+If set to anything, disable all output styling. Valid tags will still be
+consumed and will not be present in the output.
