@@ -33,8 +33,8 @@ check() {
     ((passes++))
     echo "PASS $description"
     if [[ "$verbose" == "1" ]]; then
-      escape "  : $actual != $expected"
-      echo   "  : $actual$reset != $expected$reset"
+      escape "  : $actual == $expected"
+      echo   "  : $actual$reset == $expected$reset"
     fi
   fi
 }
