@@ -55,7 +55,10 @@ emit_from_tags(const char *input)
     int level = 0;
 
     while (*end) {
-        if (*end == '[' && level++ == 0) {
+        if (*end == '\\' && end[1] == '[') {
+            putchar('[');
+            end++;
+        } else if (*end == '[' && level++ == 0) {
             start = end;
         } else if (*end == ']' && level > 0 && --level == 0) {
             int ansi = tag_to_ansi(start + 1, end - 1);
