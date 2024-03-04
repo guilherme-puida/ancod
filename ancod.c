@@ -20,9 +20,10 @@ version(void)
 static void
 usage(FILE *f)
 {
-    fprintf(f, "Usage: ancod [-hnv] [STRING]...\n");
+    fprintf(f, "Usage: ancod [-hnrv] [STRING]...\n");
     fprintf(f, "  -h    print this message and exit\n");
     fprintf(f, "  -n    do not output the trailing newline\n");
+    fprintf(f, "  -r    do not reset styles after every input\n");
     fprintf(f, "  -v    print version information and exit\n");
 }
 
@@ -181,12 +182,16 @@ int
 main(int argc, char **argv)
 {
     bool trailing_newline = true;
+    bool reset_between = true;
 
     int option;
-    while ((option = getopt(argc, argv, "vh?n")) != -1) {
+    while ((option = getopt(argc, argv, "vh?nr")) != -1) {
         switch (option) {
             case 'n':
                 trailing_newline = false;
+                break;
+            case 'r':
+                reset_between = false;
                 break;
             case 'v':
                 version();
@@ -202,6 +207,10 @@ main(int argc, char **argv)
 
     for (int i = optind; i < argc; ++i) {
         emit_from_tags(argv[i]);
+
+        if (reset_between) {
+            ansi_code_for(RESET);
+        }
 
         if (i + 1 < argc) {
             putchar(' ');
