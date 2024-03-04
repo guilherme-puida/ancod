@@ -68,6 +68,17 @@ tag_to_ansi(const char *start, const char *end)
         }
     }
 
+    // handle [/b], [/d], [/i], [/u] and [/s].
+    if (len == 2 && *start == '/') {
+        switch (start[1]) {
+            case 'b': return NO_BOLD;
+            case 'd': return NO_DIM;
+            case 'i': return NO_ITALIC;
+            case 'u': return NO_UNDER;
+            case 's': return NO_STRIKE;
+        }
+    }
+
     return INVALID;
 }
 

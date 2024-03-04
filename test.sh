@@ -45,11 +45,11 @@ check 'closing'     ']hello'        ']hello'
 check 'nested'      '[[]]hello'     '[[]]hello'
 check 'escaped'     '\[b]hello \n'  '[b]hello \n'
 
-check 'bold'   '[b]bold'   "$(c 1)bold"
-check 'dim'    '[d]dim'    "$(c 2)dim"
-check 'italic' '[i]italic' "$(c 3)italic"
-check 'under'  '[u]under'  "$(c 4)under"
-check 'strike' '[s]strike' "$(c 9)strike"
+check 'bold'   '[b]bold[/b] no'   "$(c 1)bold$(c 22) no"
+check 'dim'    '[d]dim[/d] no'    "$(c 2)dim$(c 22) no"
+check 'italic' '[i]italic[/i] no' "$(c 3)italic$(c 23) no"
+check 'under'  '[u]under[/u] no'  "$(c 4)under$(c 24) no"
+check 'strike' '[s]strike[/s] no' "$(c 9)strike$(c 29) no"
 
 echo "$passes passes, $fails fails"
 exit "$fails"
