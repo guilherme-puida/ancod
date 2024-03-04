@@ -59,7 +59,12 @@ emit_from_tags(const char *input)
             start = end;
         } else if (*end == ']' && --level == 0) {
             int ansi = tag_to_ansi(start + 1, end - 1);
-            if (ansi != INVALID) ansi_code_for(ansi);
+            if (ansi != INVALID) {
+                ansi_code_for(ansi);
+            } else {
+                int len = end - start + 1;
+                printf("%.*s", len, start);
+            }
         } else if (!level) {
             putchar(*end);
         }

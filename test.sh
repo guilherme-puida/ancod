@@ -39,6 +39,8 @@ check() {
   fi
 }
 
+check 'invalid tag' '[abc]hello' '[abc]hello'
+
 check 'bold'   '[b]bold'   "$(c 1)bold"
 check 'dim'    '[d]dim'    "$(c 2)dim"
 check 'italic' '[i]italic' "$(c 3)italic"
