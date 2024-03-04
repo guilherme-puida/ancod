@@ -69,5 +69,8 @@ check 'bg magenta' '[*magenta]magenta' "$(c 45)magenta"
 check 'bg cyan'    '[*cyan]cyan'       "$(c 46)cyan"
 check 'bg white'   '[*white]white'     "$(c 47)white"
 
+check 'fg default' '[^red]red[/^] no' "$(c 31)red$(c 39) no"
+check 'bg default' '[*red]red[/*] no' "$(c 41)red$(c 49) no"
+
 echo "$passes passes, $fails fails"
 exit "$fails"

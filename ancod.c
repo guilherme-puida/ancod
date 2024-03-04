@@ -88,9 +88,11 @@ tag_to_ansi(const char *start, const char *end)
         }
     }
 
-    // handle [/b], [/d], [/i], [/u] and [/s].
+    // handle [/^], [^*], [/b], [/d], [/i], [/u] and [/s].
     if (len == 2 && *start == '/') {
         switch (start[1]) {
+            case '^': return FG_DEFAULT;
+            case '*': return BG_DEFAULT;
             case 'b': return NO_BOLD;
             case 'd': return NO_DIM;
             case 'i': return NO_ITALIC;
