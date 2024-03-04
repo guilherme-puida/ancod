@@ -20,10 +20,10 @@ version(void)
 static void
 usage(FILE *f)
 {
-    fprintf(f, "Usage: ancod MESSAGE...\n");
-    fprintf(f, "  -h, -?    print this message and exit\n");
-    fprintf(f, "  -n        do not output the trailing newline\n");
-    fprintf(f, "  -v        print version information and exit\n");
+    fprintf(f, "Usage: ancod [-hnv] MESSAGE...\n");
+    fprintf(f, "  -h    print this message and exit\n");
+    fprintf(f, "  -n    do not output the trailing newline\n");
+    fprintf(f, "  -v    print version information and exit\n");
 }
 
 enum ansi_code {
@@ -189,7 +189,7 @@ main(int argc, char **argv)
             case 'v':
                 version();
                 exit(EXIT_SUCCESS);
-            case 'h': case '?':
+            case 'h':
                 usage(stdout);
                 exit(EXIT_SUCCESS);
             default:
