@@ -11,6 +11,8 @@
 
 #define ANCOD_VERSION 0.1
 
+static bool output_color = true;
+
 static void
 version(void)
 {
@@ -69,7 +71,9 @@ enum ansi_code {
 static void
 ansi_code_for(int value)
 {
-    printf("\033[%dm", value);
+    if (output_color) {
+        printf("\033[%dm", value);
+    }
 }
 
 static enum ansi_code
@@ -183,6 +187,13 @@ main(int argc, char **argv)
 {
     bool trailing_newline = true;
     bool reset_between = true;
+
+    // support the NO_COLOR environment variable.
+    // see https://no-color.org
+    char *no_color = getenv("NO_COLOR");
+    if (no_color != NULL && *no_color != 0) {
+        output_color = false;
+    }
 
     int option;
     while ((option = getopt(argc, argv, "vh?nr")) != -1) {
