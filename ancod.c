@@ -1,5 +1,28 @@
+#define _XOPEN_SOURCE
+
 #include <stdio.h>
 #include <stdlib.h>
+
+#include <unistd.h>
+
+#define XSTR(x) STR(x)
+#define STR(x)  #x
+
+#define ANCOD_VERSION 0.1
+
+static void
+version(void)
+{
+    puts("ancod " XSTR(ANCOD_VERSION));
+}
+
+static void
+usage(FILE *f)
+{
+    fprintf(f, "Usage: ancod MESSAGE...\n");
+    fprintf(f, "  -h, -?    print this message and exit\n");
+    fprintf(f, "  -v        print version information and exit\n");
+}
 
 enum ansi_code {
     INVALID = -1,
@@ -84,12 +107,33 @@ emit_from_tags(const char *input)
 int
 main(int argc, char **argv)
 {
-    if (argc != 2) {
+    int option;
+    while ((option = getopt(argc, argv, "vh?")) != -1) {
+        switch (option) {
+            case 'v':
+                version();
+                exit(EXIT_SUCCESS);
+            case 'h': case '?':
+                usage(stdout);
+                exit(EXIT_SUCCESS);
+            default:
+                usage(stderr);
+                exit(EXIT_FAILURE);
+        }
+    }
+
+    if (optind >= argc) {
+        usage(stderr);
         exit(EXIT_FAILURE);
     }
 
-    char *input = argv[1];
-    emit_from_tags(input);
+    for (int i = optind; i < argc; ++i) {
+        emit_from_tags(argv[i]);
+
+        if (i + 1 < argc) {
+            putchar(' ');
+        }
+    }
 
     exit(EXIT_SUCCESS);
 }
