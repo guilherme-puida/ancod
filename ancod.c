@@ -43,6 +43,26 @@ enum ansi_code {
     NO_ITALIC = 23,
     NO_UNDER  = 24,
     NO_STRIKE = 29,
+
+    FG_BLACK   = 30,
+    FG_RED     = 31,
+    FG_GREEN   = 32,
+    FG_YELLOW  = 33,
+    FG_BLUE    = 34,
+    FG_MAGENTA = 35,
+    FG_CYAN    = 36,
+    FG_WHITE   = 37,
+    FG_DEFAULT = 39,
+
+    BG_BLACK   = 40,
+    BG_RED     = 41,
+    BG_GREEN   = 42,
+    BG_YELLOW  = 43,
+    BG_BLUE    = 44,
+    BG_MAGENTA = 45,
+    BG_CYAN    = 46,
+    BG_WHITE   = 47,
+    BG_DEFAULT = 49,
 };
 
 static void
@@ -78,6 +98,44 @@ tag_to_ansi(const char *start, const char *end)
             case 's': return NO_STRIKE;
         }
     }
+
+    // from now on, the only valid options are fg and bg colors.
+    if (*start != '^' && *start != '*') {
+        return INVALID;
+    }
+
+    bool is_background = *start == '*';
+
+    // skip first character and ajudst length.
+    start++;
+    len--;
+
+#define MATCH(name, fg, bg)                                                       \
+    do {                                                                          \
+        int name_len = sizeof(name) - 1;                                          \
+        if (name_len == len && start[0] == name[0] &&                             \
+            (len <= 1 || start[1] == name[1]) &&                                  \
+            (len <= 2 || start[2] == name[2]) &&                                  \
+            (len <= 3 || start[3] == name[3]) &&                                  \
+            (len <= 4 || start[4] == name[4]) &&                                  \
+            (len <= 5 || start[5] == name[5]) &&                                  \
+            (len <= 6 || start[6] == name[6]) &&                                  \
+            (len <= 7 || start[7] == name[7]) &&                                  \
+            (len <= 8 || start[8] == name[8]) &&                                  \
+            (len <= 9 || start[9] == name[9]) &&                                  \
+            (len <= 10 || start[10] == name[10])) return is_background ? bg : fg; \
+        } while (0)
+
+    MATCH("black", FG_BLACK, BG_BLACK);
+    MATCH("red", FG_RED, BG_RED);
+    MATCH("green", FG_GREEN, BG_GREEN);
+    MATCH("yellow", FG_YELLOW, BG_YELLOW);
+    MATCH("blue", FG_BLUE, BG_BLUE);
+    MATCH("magenta", FG_MAGENTA, BG_MAGENTA);
+    MATCH("cyan", FG_CYAN, BG_CYAN);
+    MATCH("white", FG_WHITE, BG_WHITE);
+
+#undef MATCH
 
     return INVALID;
 }
