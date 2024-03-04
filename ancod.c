@@ -27,7 +27,7 @@
 #define XSTR(x) STR(x)
 #define STR(x)  #x
 
-#define ANCOD_VERSION 0.1
+#define ANCOD_VERSION 0.2
 
 static bool output_color = true;
 
