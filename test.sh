@@ -40,6 +40,9 @@ check() {
 }
 
 check 'invalid tag' '[abc]hello' '[abc]hello'
+check 'mismatched'  '[[]hello'   '[[]hello'
+check 'closing'     ']hello'     ']hello'
+check 'nested'      '[[]]hello'  '[[]]hello'
 
 check 'bold'   '[b]bold'   "$(c 1)bold"
 check 'dim'    '[d]dim'    "$(c 2)dim"

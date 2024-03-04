@@ -57,7 +57,7 @@ emit_from_tags(const char *input)
     while (*end) {
         if (*end == '[' && level++ == 0) {
             start = end;
-        } else if (*end == ']' && --level == 0) {
+        } else if (*end == ']' && level > 0 && --level == 0) {
             int ansi = tag_to_ansi(start + 1, end - 1);
             if (ansi != INVALID) {
                 ansi_code_for(ansi);
@@ -70,6 +70,11 @@ emit_from_tags(const char *input)
         }
 
         end++;
+    }
+
+    if (level) {
+        int len = end - start + 1;
+        printf("%.*s", len, start);
     }
 }
 
