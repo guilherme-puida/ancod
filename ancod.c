@@ -20,7 +20,7 @@ version(void)
 static void
 usage(FILE *f)
 {
-    fprintf(f, "Usage: ancod [-hnv] MESSAGE...\n");
+    fprintf(f, "Usage: ancod [-hnv] [STRING]...\n");
     fprintf(f, "  -h    print this message and exit\n");
     fprintf(f, "  -n    do not output the trailing newline\n");
     fprintf(f, "  -v    print version information and exit\n");
@@ -196,11 +196,6 @@ main(int argc, char **argv)
                 usage(stderr);
                 exit(EXIT_FAILURE);
         }
-    }
-
-    if (optind >= argc) {
-        usage(stderr);
-        exit(EXIT_FAILURE);
     }
 
     for (int i = optind; i < argc; ++i) {
