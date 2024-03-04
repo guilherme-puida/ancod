@@ -1,5 +1,6 @@
 #define _XOPEN_SOURCE
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -21,6 +22,7 @@ usage(FILE *f)
 {
     fprintf(f, "Usage: ancod MESSAGE...\n");
     fprintf(f, "  -h, -?    print this message and exit\n");
+    fprintf(f, "  -n        do not output the trailing newline\n");
     fprintf(f, "  -v        print version information and exit\n");
 }
 
@@ -107,9 +109,14 @@ emit_from_tags(const char *input)
 int
 main(int argc, char **argv)
 {
+    bool trailing_newline = true;
+
     int option;
-    while ((option = getopt(argc, argv, "vh?")) != -1) {
+    while ((option = getopt(argc, argv, "vh?n")) != -1) {
         switch (option) {
+            case 'n':
+                trailing_newline = false;
+                break;
             case 'v':
                 version();
                 exit(EXIT_SUCCESS);
@@ -133,6 +140,10 @@ main(int argc, char **argv)
         if (i + 1 < argc) {
             putchar(' ');
         }
+    }
+
+    if (trailing_newline) {
+        putchar('\n');
     }
 
     exit(EXIT_SUCCESS);
